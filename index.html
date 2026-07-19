@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黃大仙靈籤 - 粉彩東方古典風</title>
+    <style>
+        :root {
+            /* Pastel Eastern Color Palette (粉彩東方色系) */
+            --bg-color: #F7F5F0;         /* 宣紙溫潤米白 */
+            --container-bg: #FFFFFF;     /* 羊脂白 */
+            --primary-pastel: #8EAE9D;   /* 豆綠/粉彩青瓷 */
+            --secondary-pastel: #D3A29D; /* 絲絹粉/胭脂粉 */
+            --accent-gold: #C5A059;      /* 古典霧面金 */
+            --text-dark: #4A4A4A;        /* 墨灰深色 */
+            --text-light: #6A6A6A;       /* 墨灰次要文字 */
+            --border-color: #E6E1D6;     /* 柔和邊框色 */
+            --luck-bg: #F4EBE8;          /* 籤運標籤底色 */
+            --cat-bg: #EEF3F0;           /* 分類按鈕底色 */
+        }
+
+        body {
+            font-family: "PingFang HK", "Microsoft JhengHei", "Noto Serif TC", serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(#E6E1D6 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            background-color: var(--container-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        /* 東方風格古典邊框角綴 (無燈籠) */
+        .container::before, .container::after {
+            content: "☁";
+            font-size: 24px;
+            color: var(--primary-pastel);
+            position: absolute;
+            top: 15px;
+            opacity: 0.5;
+        }
+        .container::before { left: 20px; }
+        .container::after { right: 20px; transform: scaleX(-1); }
+
+        h1 {
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--primary-pastel);
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* 按鈕區域 */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .btn {
+            border: none;
+            padding: 16px 35px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        /* 求籤按鈕 */
+        .draw-btn {
+            background-color: var(--primary-pastel);
+            color: #FFFFFF;
+            box-shadow: 0 4px 15px rgba(142, 174, 157, 0.3);
+        }
+
+        .draw-btn:hover {
+            background-color: #7A9A89;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(142, 174, 157, 0.4);
+        }
+
+        /* 重設按鈕 */
+        .reset-btn {
+            background-color: var(--secondary-pastel);
+            color: #FFFFFF;
+            box-shadow: 0 4px 15px rgba(211, 162, 157, 0.3);
+            display: none; /* 初始隱藏，抽籤後顯示 */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .reset-btn:hover {
+            background-color: #C08E89;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(211, 162, 157, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* 簽文內容顯示區 */
+        .result-box {
+            border-top: 1px dashed var(--border-color);
+            padding-top: 30px;
+            display: none; /* 初始隱藏 */
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lot-number {
+            font-size: 18px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .lot-title {
+            font-size: 26px;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .lot-luck {
+            display: inline-block;
+            background-color: var(--luck-bg);
+            color: var(--secondary-pastel);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            border: 1px solid rgba(211, 162, 157, 0.3);
+        }
+
+        .poem-box {
+            background-color: var(--bg-color);
+            border-left: 4px solid var(--primary-pastel);
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        .poem-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .poem-translation {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* 分類解讀選擇區 */
+        .cat-title {
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .cat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cat-btn {
+            background-color: var(--cat-bg);
+            color: var(--text-dark);
+            border: 1px solid var(--primary-pastel);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background-color: var(--primary-pastel);
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+
+        /* 分類解讀說明方塊 */
+        .explanation-box {
+            background-color: #FFFDF9;
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            display: none; /* 點擊選項後顯示 */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .exp-category-name {
+            color: var(--accent-gold);
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--accent-gold);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .exp-text-zh {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .exp-text-en {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .instructions {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; }
+            .btn-group { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; padding: 14px 0; }
+            .lot-title { font-size: 22px; }
+            .poem-text { font-size: 16px; }
+            .cat-grid { gap: 8px; }
+            .cat-btn { padding: 6px 14px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>黃大仙靈籤</h1>
+    <div class="subtitle">Wong Tai Sin Fortune Sticks</div>
+    
+    <p class="instructions">請默念您的問題，然後點擊下方按鈕誠心求籤。<br>Focus on your question and click the button below to draw a stick.</p>
+    
+    <div class="btn-group">
+        <button class="btn draw-btn" onclick="drawLot()">誠心求籤</button>
+        <button class="btn reset-btn" id="reset-btn" onclick="resetLot()">重設 / Reset</button>
+    </div>
+
+    <div class="result-box" id="result-box">
+        <div class="lot-number" id="lot-number"></div>
+        <div class="lot-title" id="lot-title"></div>
+        <div class="lot-luck" id="lot-luck"></div>
+        
+        <div class="poem-box">
+            <div class="poem-text" id="poem-text"></div>
+            <div class="poem-translation" id="poem-translation"></div>
+        </div>
+
+        <div class="cat-title">✦ 選擇所求事項以查閱詳細解讀 · Select a category for detailed interpretation ✦</div>
+        <div class="cat-grid">
+            <button class="cat-btn" onclick="showExplanation('career', this)">事業 · Career</button>
+            <button class="cat-btn" onclick="showExplanation('wealth', this)">財運 · Wealth</button>
+            <button class="cat-btn" onclick="showExplanation('love', this)">姻緣 · Love</button>
+            <button class="cat-btn" onclick="showExplanation('health', this)">健康 · Health</button>
+            <button class="cat-btn" onclick="showExplanation('study', this)">學業 · Study</button>
+            <button class="cat-btn" onclick="showExplanation('family', this)">家庭 · Family</button>
+        </div>
+
+        <div class="explanation-box" id="explanation-box">
+            <div class="exp-category-name">
+                <span id="exp-title">事業解讀</span>
+                <span id="exp-luck-badge" style="font-size:14px; font-weight:normal;"></span>
+            </div>
+            <div class="exp-text-zh" id="exp-zh"></div>
+            <div class="exp-text-en" id="exp-en"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 100 支簽資料庫與對應解讀
+    const lotsData = [
+        { no: 1, luck: "上上籤", title: "姜公封相", poem: "靈籤求得第一枝，龍虎風雲際會時。<br>一旦凌霄揚自樂，任君來往赴瑤池。", trans: "Having drawn the very first fortune stick, it signifies the convergence of dragons and tigers under shifting winds and clouds. Once soaring high into the clouds to enjoy self-mattered joy, you are free to travel back and forth to the Jade Pool." },
+        { no: 2, luck: "上吉籤", title: "王道真誤入桃源", poem: "枯木逢春盡發新，花香葉茂蝶來頻。<br>桃源競鬥千紅紫，一葉漁舟誤入津。", trans: "Dead wood meets the spring and fully rejuvenates; with fragrant flowers and lush leaves, butterflies visit frequently. In the Peach Blossom Spring, thousands of reds and purples compete in brilliance, as a single fishing boat mistakenly enters the ferry." },
+        { no: 3, luck: "中平籤", title: "魯班伐木", poem: "牛馬同欄命不相同，一個辛勤一個慵。<br>若問木匠施巧妙，何如劈碎作柴燒。", trans: "Cattle and horses share the same stable but have different destinies; one labors diligently while the other remains lazy. If you ask the carpenter to apply his clever skill, it is better to split it up to burn as firewood." },
+        { no: 4, luck: "中吉籤", title: "燕子教飛", poem: "清明時節雨紛紛，莫向人家好問墳。<br>借問酒家何處有，牧童遙指杏花村。", trans: "Drizzling rain falls heavily during the Qingming Festival; do not look around to ask about ancestral graves. Asking where a tavern might be found, the shepherd boy points afar to the Apricot Blossom Village." },
+        { no: 5, luck: "中吉籤", title: "陶淵明栽花", poem: "東園昨夜狂風急，萬紫千紅亦播遷。<br>幸有惜花人早起，培回根本復栽生。", trans: "A fierce gale blew wildly through the eastern garden last night, scattering thousands of purples and reds. Fortunately, a flower-cherishing person woke up early to nourish the roots and replant them back to life." },
+        { no: 6, luck: "上吉籤", title: "蘇東坡遊滕王閣", poem: "一片孤帆萬里回，管弦嘔啞且停杯。<br>如雲勝友談風月，暢敘幽情極樂哉。", trans: "A single lonely sail returns from ten thousand miles away; stop the cup amidst the rough sounds of strings and flutes. Excellent friends gather like clouds to talk of wind and moon, joyfully conversing with deep feelings in absolute bliss." },
+        { no: 7, luck: "中平籤", title: "丁山射雁", poem: "秋來征雁向南歸，紅葉紛紛滿院飛。<br>碪搗城頭聲切耳，江楓如火在漁磯。", trans: "As autumn arrives, migratory geese fly southward, and red leaves flutter wildly to fill the courtyard. The sound of pounding pestles on the city wall strikes the ear sharply, while river maples burn like fire by the fishing pier." },
+        { no: 8, luck: "下下籤", title: "鵲巢鳩居", poem: "鳴鳩爭奪鵲巢居，賓主參差意不舒。<br>滿嶺喬松蘿蔦附，且猜詩語是何如。", trans: "The calling dove fights to capture the magpie's nest; guest and host are misaligned, causing uneasy feelings. The entire ridge of tall pines is overrun by clinging vines; try to guess what these poetic words imply." },
+        { no: 9, luck: "上吉籤", title: "陶淵明賞菊", poem: "為愛幽閒多種竹，買春賞雨在茅屋。<br>醉時臥倒杏花邊，怕聽鶯兒驚夢熟。", trans: "Out of love for quiet leisure, many bamboos are planted; buying spring wine and admiring rain inside a thatched hut. When drunk, lying down beside the apricot blossoms, fearing to hear the orioles awaken a deep dream." },
+        { no: 10, luck: "中平籤", title: "蘇秦不第", poem: "一輪月鏡掛空中，偶被浮雲障疊重。<br>玉匣何時光氣吐，誰人借我一狂風。", trans: "A round mirror of a moon hangs in the sky, occasionally obscured by overlapping layers of floating clouds. When will the jade box unleash its radiant aura? Who will lend me a wild gust of wind?" },
+        { no: 11, luck: "上吉籤", title: "漢文帝賞柳", poem: "楊柳垂堤鎖綠煙，日長三起又三眠。<br>往來紫燕紛飛舞，裊娜迎風倩我憐。", trans: "Willows drooping along the embankment lock in the green mist; during the long days, they rise three times and sleep three times. Purple swallows fly and dance back and forth, slender and swaying gracefully in the wind to win my affection." },
+        { no: 12, luck: "下下籤", title: "蜃樓海市", poem: "假山假石假家園，那見真情向你言。<br>每事唯憑神點化，莫因浮慕錯流連。", trans: "Fake hills, fake stones, and a fake homestead; where can you find true feelings spoken to you? In every matter, rely only on divine enlightenment; do not linger mistakenly due to superficial admiration." },
+        { no: 13, luck: "中平籤", title: "孟浩然尋梅", poem: "嶺南初放一枝梅，片片晶瑩入酒杯。<br>卻遇騎驢人早至，兒童背負占春魁。", trans: "A single branch of plum blossoms opens for the first time in Lingnan, its crystal-clear petals falling into the wine cup. Yet an early rider on a donkey arrives, with a child carrying it on his back to claim the crown of spring." },
+        { no: 14, luck: "中平籤", title: "陶淵明醉酒", poem: "物情舒泰即春迴，隨意青雲步履台。<br>世事如棋局局新，何須計較惹塵埃。", trans: "When things become comfortable and relaxed, spring returns; stepping onto the high platform toward the blue clouds at will. World affairs are like a game of chess, completely fresh with every match; why calculate and dispute to stir up dust?" },
+        { no: 15, luck: "上吉籤", title: "唐明皇遊月殿", poem: "月鏡新磨大放光，冰輪常滿照東方。<br>敢將學問前朝比，不假修為自顯揚。", trans: "The newly polished moon mirror unleashes a great light; the ice wheel remains constantly full, illuminating the East. Daring to compare one's knowledge with past dynasties, it manifests itself naturally without relying on artificial effort." },
+        { no: 16, luck: "中吉籤", title: "牧童歸家", poem: "天邊鴉背夕陽回，隴外兒童跨犢來。<br>羌笛頻吹聲切耳，短長腔調樂何哉。", trans: "Sunsets return upon the backs of crows at the sky's edge; a child comes from beyond the ridges riding a calf. The Qiang flute blows repeatedly with sharp sounds striking the ear; short and long melodies bring such boundless joy." },
+        { no: 17, luck: "中平籤", title: "月光圓滿", poem: "月亮光華滿大川，此時景物最堪憐。<br>佳人玩賞思明德，百福駢臻萬事全。", trans: "The brilliant moon illuminates the great rivers; at this time, the scenery is most worthy of affection. A beautiful lady admires it while reflecting on bright virtue; a hundred blessings arrive together, and all things are fulfilled." },
+        { no: 18, luck: "下下籤", title: "杜鵑", poem: "秋水伊人各一方，天南地北恨偏長。<br>相思詩句憑誰寄，不盡淒涼幾斷腸。", trans: "The autumn waters separate the loved ones on different sides; across heaven's south and earth's north, the sorrow runs exceptionally long. Upon whom can one rely to send poems of longing? The endless desolation almost breaks the heart." },
+        { no: 19, luck: "中吉籤", title: "伏羲畫八卦", poem: "天與厥因事可期，重重喜事自相宜。<br>守時不用多憂慮，若問前程萬事知。", trans: "Heaven provides the underlying causes, so events can be expected; layers of happy events naturally suit one another. Observe the right timing without excessive worry; if you ask about the future, all matters shall be known." },
+        { no: 20, luck: "中平籤", title: "天上仙花", poem: "天上仙花難問種，人間塵事幾多更。<br>前程已註公私簿，罰賞分明濁與清。", trans: "It is hard to ask how celestial flowers are planted in heaven; how many changes occur in the dusty affairs of human world? The future is already recorded in public and private ledgers; punishments and rewards are distinct, just like the muddy and the clear." },
+        { no: 21, luck: "中吉籤", title: "吳隱之會宴", poem: "天外紅霞如抹錦，檻邊桃杏鬭新粧。<br>盈眸爛熳誰居首，美酒頻斟且酌量。", trans: "Red clouds beyond the sky look like brushed brocade; beside the railings, peaches and apricots compete in their fresh makeup. With brilliant colors filling the eyes, who shall rank first? Pour the fine wine repeatedly and weigh your choices carefully." },
+        { no: 22, luck: "下下籤", title: "他鄉作客", poem: "衰草殘陽客遠行，投荒萬里聽秋聲。<br>寒衣未疊重重恨，何處關山聽玉箏。", trans: "Withered grass and a setting sun accompany a traveler on a long journey, heading into a desolate wilderness ten thousand miles away to listen to autumn sounds. Winter clothes are not yet folded amidst layers of regret; at which mountain pass can one hear the jade zither?" },
+        { no: 23, luck: "中平籤", title: "夢中得寶", poem: "手持一杯出東牆，路遇高人引進房。<br>開口便知奇異事，原來夢境未尋常。", trans: "Holding a cup while walking out from the eastern wall, meeting a person of high caliber on the road who leads you into a room. As soon as they speak, strange and wondrous things are revealed; it turns out this dream world is far from ordinary." },
+        { no: 24, luck: "下下籤", title: "秦瓊賣馬", poem: "英雄落魄到天涯，馬瘦毛長路轉賒。<br>莫向眾人談命運，且將寶劍換生涯。", trans: "A hero loses his fortune and ends up at the edge of the world; with a thin horse and long fur, the road ahead becomes even more distant. Do not talk about destiny to the crowd; for now, exchange your precious sword to maintain your livelihood." },
+        { no: 25, luck: "上吉籤", title: "五岳泰山", poem: "群山擾擾朝中岳，有似為臣列鵠班。<br>拱立兩行齊整肅，自居此地豈無歡。", trans: "The bustling mountains all pay homage to the Central Peak, resembling ministers standing in orderly ranks like geese. Standing respectfully in two perfectly neat rows; residing in this place, how could there not be joy?" },
+        { no: 26, luck: "中平籤", title: "水月鏡花", poem: "淨瓶甘露洗凡塵，直教心地永無垠。<br>因何踏破雙鞋底，萬里尋求一處真。", trans: "Sweet dew from a pure vase washes away worldly dust, directly causing the inner heart to expand without boundaries. Why wear out the soles of both shoes, searching across ten thousand miles for a single place of truth?" },
+        { no: 27, luck: "中平籤", title: "蟻子知時", poem: "蟻子搬家晴必雨，知時預備免憂愁。<br>目前雖見多勞碌，日後方知好計謀。", trans: "When ants move their home, a sunny day will surely turn to rain; knowing the time and preparing beforehand keeps worry away. Although much busy toil is seen at present, only later will you realize it was an excellent strategy." },
+        { no: 28, luck: "中平籤", title: "白司馬被貶", poem: "楓葉紛紛落滿船，潯陽江上客遲留。<br>商女琵琶彈一曲，不知聽者幾多愁。", trans: "Maple leaves flutter down continuously to fill the boat; on the Xunyang River, the traveler lingers late. The merchant woman plays a single tune on the pipa; one knows not how much sorrow the listeners endure." },
+        { no: 29, luck: "中吉籤", title: "王羲之賞菊", poem: "百草凋零獨耐寒，籬邊點綴玉欄杆。<br>高人品格同清秀，不共凡花一處看。", trans: "While all plants wither, it alone endures the cold, decorating the jade railings beside the fence. A person of high caliber shares its pure and elegant character, never to be viewed in the same place as common flowers." },
+        { no: 30, luck: "下下籤", title: "貴妃受劫", poem: "馬嵬坡下草茫茫，今日猶聞說太真。<br>當日六軍同駐馬，萬金何處保全身。", trans: "Below the Mawei Slope, the wild grass stretches boundlessly; even today, one still hears stories of Yang Guifei. On that day, the six armies halted their horses together; where could ten thousand gold pieces go to preserve a life?" },
+        { no: 31, luck: "下下籤", title: "漁翁遇風失東西", poem: "漁翁夜半向江干，風雨交加起惡瀾。<br>失卻東西無處覓，滿船空載月明還。", trans: "A fisherman heads to the riverbank at midnight; wind and rain strike together, stirring up ferocious waves. Having lost his belongings with nowhere to search, he returns with an empty boat loaded only with bright moonlight." },
+        { no: 32, luck: "中平籤", title: "蘇武牧羊", poem: "北海牧羊十九年，忠心耿耿不曾偏。<br>白頭歸漢安朝野，留得青史萬古傳。", trans: "Shepherding sheep by the North Sea for nineteen years, his loyalty remained bright and never wavered. Returning to the Han dynasty with a white head, he pacified court and country, leaving his name in history to be passed down for eternity." },
+        { no: 33, luck: "中平籤", title: "曹操走難", poem: "烏林一火燒連營，敗走華容道上行。<br>幸遇關公重義氣，放開金鎖脫身生。", trans: "A single fire at Wulin burned the connected camps; fleeing in defeat along the Huarong Road. Fortunately meeting Lord Guan who highly valued righteousness, he unlocked the golden chains to escape with his life." },
+        { no: 34, luck: "中吉籤", title: "大舜耕田", poem: "歷山耕鑿幾經年，地利人和天亦憐。<br>一旦登庸為天子，萬方仰德總稱賢。", trans: "Farming and digging at Mount Li for several years, possessing geographical advantages, human harmony, and heaven's pity. Once elevated to become the Emperor, all quarters look up to his virtue and call him wise." },
+        { no: 35, luck: "中吉籤", title: "唐僧取經", poem: "萬里長途涉水山，聖僧奉命往西天。<br>雖逢魔怪重重阻，修得真經返故園。", trans: "Journeying ten thousand miles across waters and mountains, the holy monk receives orders to travel to the Western Heaven. Although encountering demons and layers of obstructions, he obtains the true scriptures and returns to his homeland." },
+        { no: 36, luck: "中吉籤", title: "陶淵明歸家", poem: "歸去來兮辭合心，載瞻荒徑步行尋。<br>入舟輕颺風吹袂，稚子迎門慰我襟。", trans: "Returning home matches the heart's desire; gazing at the overgrown pathways while searching on foot. Entering the boat as a gentle breeze blows across the sleeves, young children welcome at the door to comfort my heart." },
+        { no: 37, luck: "上吉籤", title: "王羲之釣魚", poem: "岸闊水深魚易藏，一竿在手意何忙。<br>時來必中鰲頭選，任向江淮作釣郎。", trans: "The banks are wide and waters deep, making it easy for fish to hide; with a fishing rod in hand, why should the mind be hurried? When the time comes, you will surely win the top choice; feel free to act as a fisherman along the rivers." },
+        { no: 38, luck: "中吉籤", title: "陶淵明辭官歸隱", poem: "小草含青已發芽，春風一度到仙家。<br>高風亮節無人識，不作公奴自賞花。", trans: "Tiny grass containing green has already sprouted; once the spring breeze arrives at the immortal's home. Noble character and integrity remain unrecognized by others; refusing to be a public servant, one admires flowers alone." },
+        { no: 39, luck: "中平籤", title: "夷齊讓園", poem: "兩兄弟共一雙鞋，出入相同事事諧。<br>莫信旁人分彼此，一家和氣自天來。", trans: "Two brothers share a single pair of shoes; going out and coming in together, everything is in harmony. Do not believe outsiders who try to separate you; a family's peaceful atmosphere comes naturally from heaven." },
+        { no: 40, luck: "下下籤", title: "伯牙碎琴", poem: "知音何處覓琴心，碎卻瑤琴淚滿襟。<br>今日子期長已矣，世間無復聽絃音。", trans: "Where can one find an understanding soul who knows the zither's heart? Smashing the precious zither as tears drench the lapel. Now that Ziqi is gone forever, the world will no longer listen to the sound of these strings." },
+        { no: 41, luck: "中吉籤", title: "張騫遇仙姬", poem: "尋到仙源路不賒，桃花流水泛仙槎。<br>高人引路歸家去，始覺人間歲月賒。", trans: "Having found the immortal source, the road is not distant; peach blossoms and flowing water carry the celestial raft. A person of high caliber guides the way back home, only then realizing that worldly time has stretched far." },
+        { no: 42, luck: "中吉籤", title: "王允遇貂蟬", poem: "月上東牆玉鏡明，佳人玩賞思幽情。<br>忽然風送歌聲至，知是貂蟬祝太清。", trans: "The moon rises over the eastern wall like a bright jade mirror; a beautiful lady admires it while reflecting on quiet thoughts. Suddenly the wind delivers the sound of singing, revealing it is Diaochan praying to the Highest Heaven." },
+        { no: 43, luck: "下下籤", title: "韓文公諫君", poem: "一紙朝奏九重天，夕貶潮陽路八千。<br>欲為聖明除弊事，肯將衰朽惜殘年。", trans: "Submitting a single morning petition to the highest heavens, by evening banishment comes to Chaoyang, eight thousand miles away. Desiring to eliminate harmful practices for a wise emperor, how could one spare a frail and declining life?" },
+        { no: 44, luck: "中吉籤", title: "唐天寶賞牡丹", poem: "牡丹天下自無雙，獨佔人間第一香。<br>好是國色天香處，風吹引動蝶雙雙。", trans: "Peonies are naturally matchless under heaven, holding a monopoly on the absolute finest fragrance in the human world. At this beautiful place of national grace and heavenly fragrance, the blowing wind draws butterflies in pairs." },
+        { no: 45, luck: "中平籤", title: "王質遇仙", poem: "山中砍木幾經年，看棋不覺到神仙。<br>局終回去家何在，古木枯藤且流連。", trans: "Cutting wood in the mountains for several years, watching a game of chess without realizing he was next to immortals. When the match ends and he returns, where is his home? Only ancient trees and withered vines remain to wander through." },
+        { no: 46, luck: "下下籤", title: "左慈戲曹", poem: "編籬縛屋作生涯，一旦官軍發火燒。<br>家破人亡無處去，投荒萬里路迢迢。", trans: "Weaving fences and tying up huts to make a living; suddenly, government troops launch a fire to burn it down. With home destroyed and family gone, there is nowhere to go, cast into exile ten thousand miles down a long, distant road." },
+        { no: 47, luck: "中平籤", title: "魯肅取荊州", poem: "欲作高人未可行，前程一步一驚心。<br>當初只謂荊州好，不及如今且守城。", trans: "Desiring to act as a prominent figure but unable to move forward; every single step on the future path startles the heart. Originally thinking only that Jingzhou was excellent, it cannot match the present strategy of simply defending the city." },
+        { no: 48, luck: "中平籤", title: "文君賣酒", poem: "臨邛市上浣紗人，織女何曾嫁越賓。<br>今日相如成大器，臨邛依舊賣酤人。", trans: "A silk-washing person in the market of Linqiong; how could the Weaving Maid ever marry a guest from Yue? Today, Sima Xiangru has become a great success, yet Linqiong still sees people selling wine as before." },
+        { no: 49, luck: "中吉籤", title: "司馬相如題橋", poem: "大器將成由天命，何須計較苦勞心。<br>題橋志氣人皆仰，且看前程一條金。", trans: "A great talent near success is driven by heaven's mandate; why dispute and bitterly exhaust your mind? The ambition shown by inscribing the bridge is admired by all; look ahead to a future path lined with gold." },
+        { no: 50, luck: "中吉籤", title: "伍子胥出關", poem: "奔走昭關夜不眠，白頭始過九重天。<br>前程險阻終須過，此地相逢有宿緣。", trans: "Running through Zhaoguan without sleep through the night, crossing the critical pass only after his hair turns white. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
+        { no: 51, luck: "中平籤", title: "周成王封弟", poem: "君臣相向自同心，何用多疑起禍端。<br>一片桐葉封大國，始知天子無戲言。", trans: "Ruler and minister face each other with a shared mind; why use excessive suspicion to stir up disasters? A single paulownia leaf suffices to enfeoff a great state, showing for the first time that the Emperor speaks no idle words." },
+        { no: 52, luck: "中平籤", title: "天地人三才", poem: "盤古初開天地日，大千世界混茫茫。<br>其中造化誰能測，萬物從今總一體。", trans: "On the day Pangu first separated heaven and earth, the boundless universe was a vast, chaotic blur. Who can measure the creation within it? From now on, all things are part of a single whole." },
+        { no: 53, luck: "中吉籤", title: "孟嘗君", poem: "馮諼客孟嘗君日，彈鋏長歌欲向歸。<br>彈到三番知大器，始知富貴有因緣。", trans: "During the days Feng Xuan stayed as a guest with Lord Mengchang, he tapped his sword-hilt and sang long songs about wanting to return. Tapping until the third time, his great talent was recognized, showing that wealth and status have their preordained causes." },
+        { no: 54, luck: "中平籤", title: "莊周蝶夢", poem: "莊周夢裡化蝴蝶，飛舞翩翩到苑家。<br>醒來不覺人非我，始信前程是有因。", trans: "Inside a dream, Zhuangzi transforms into a butterfly, fluttering and flying gracefully to the garden homes. Upon waking, he barely realizes that human and self are distinct, believing for the first time that the future path has its reasons." },
+        { no: 55, luck: "中平籤", title: "吳隱之除官歸隱", poem: "富貴浮雲何足羨，清流自可濯吾纓。<br>此地有名無實事，不如歸去作閒人。", trans: "Wealth and status are like floating clouds, hardly worthy of envy; a clear stream suffices to wash my official hat-strings. This place has a name but no true substance; it is better to return home and live as a person of leisure." },
+        { no: 56, luck: "中吉籤", title: "桃木劍化龍", poem: "神仙點化變龍飛，一躍青雲路不迷。<br>前程萬里終須到，始信桃源是處真。", trans: "Enlightened by immortals, it transforms into a flying dragon, leaping into the blue clouds without losing its way. A future of ten thousand miles must ultimately be reached, believing for the first time that the Peach Blossom Spring is a place of truth." },
+        { no: 57, luck: "中吉籤", title: "賣花得美", poem: "賣花得美意何如，路遇高人引進車。<br>始知富貴由天定，不必勞心苦自謀。", trans: "Selling flowers and obtaining a beauty, what does the heart desire? Meeting a prominent person on the road who invites you into the carriage. Knowing for the first time that wealth and status are fixed by heaven, there is no need to exhaust your mind with bitter self-planning." },
+        { no: 58, luck: "下下籤", title: "秦穆公大敗", poem: "秦穆公興兵伐鄭，不聽蹇叔哭殽山。<br>一旦全軍皆被虜，始知大禍自招來。", trans: "Duke Mu of Qin raised an army to attack Zheng, refusing to listen to Jian Shu weeping at Mount Yao. Suddenly the entire army is captured, realizing too late that a great disaster was brought upon himself." },
+        { no: 59, luck: "下下籤", title: "吳王寵西施", poem: "姑蘇台下草茫茫，今日猶聞說館娃。<br>當日吳王沉醉處，萬金何處保家邦。", trans: "Below the Gusu Platform, the wild grass stretches boundlessly; even today, one still hears stories of the Guanwa Palace. At that place where the King of Wu was deeply intoxicated, where could ten thousand gold pieces go to preserve the nation?" },
+        { no: 60, luck: "中平籤", title: "太白和番", poem: "李白醉和番書日，才高語妙氣如虹。<br>單于見了皆降伏，始信人間有大雄。", trans: "On the day a drunken Li Bai drafted the reply to the foreign letter, his talent was supreme, words ingenious, and aura like a rainbow. Even the Chanyu chieftain surrendered upon seeing it, believing for the first time that a great hero exists in the human world." },
+        { no: 61, luck: "下下籤", title: "岳飛受劫", poem: "十二金牌召岳飛，風波亭下哭忠魂。<br>欲為國家除禍患，肯將衰朽惜殘年。", trans: "Twelve gold plaques recall Yue Fei, as loyal souls weep below the Fengbo Pavilion. Desiring to eliminate disasters for the nation, how could one spare a frail and declining life?" },
+        { no: 62, luck: "中平籤", title: "美玉藏金", poem: "玉匣金尊滿案前，其中美祿自駢臻。<br>何須計較苦勞心，萬事從今總一體。", trans: "Jade boxes and golden vessels fill the front of the table; within them, beautiful rewards naturally arrive together. Why dispute and bitterly exhaust your mind? All matters from now on are part of a single whole." },
+        { no: 63, luck: "中吉籤", title: "顏回守道", poem: "一簞食與一瓢飲，在陋巷中人不堪。<br>回也獨能留正道，始知富貴等浮雲。", trans: "A single basket of food and a single ladle of water; in the narrow alleys, common people find it unendurable. Yet Yan Hui alone can preserve the true path, knowing for the first time that wealth and status are like floating clouds." },
+        { no: 64, luck: "中吉籤", title: "孟之反奔", poem: "奔走昭關夜不眠，白頭始過九重天。<br>前程險阻終須過，此地相逢有宿緣。", trans: "Running through Zhaoguan without sleep through the night, crossing the critical pass only after his hair turns white. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
+        { no: 65, luck: "下下籤", title: "陳後主失位", poem: "景陽宮裡好風光，玉樹歌聲滿苑香。<br>一旦隋兵發火燒，家破人亡無處去。", trans: "The scenery inside Jingyang Palace is exceptionally beautiful; songs of the Jade Tree fill the garden with fragrance. Suddenly Sui troops launch a fire to burn it down; with home destroyed and family gone, there is nowhere to go." },
+        { no: 66, luck: "上吉籤", title: "王羲之會群賢", poem: "蘭亭修禊日初長，勝友如雲坐兩旁。<br>暢敘幽情極樂哉，不假修為自顯揚。", trans: "At the Lanting pavilion for the purification ritual, the day begins to lengthen; excellent friends gather like clouds, sitting on both sides. Joyfully conversing with deep feelings in absolute bliss; it manifests itself naturally without relying on artificial effort." },
+        { no: 67, luck: "中平籤", title: "霸王自縊", poem: "烏江水急向東流，霸王自縊哭千秋。<br>當初只謂天下好，不及如今且守城。", trans: "The waters of the Wu River rush rapidly toward the east; the Hegemon-King commits suicide, mourned for a thousand autumns. Originally thinking only that the world was excellent, it cannot match the present strategy of simply defending the city." },
+        { no: 68, luck: "中吉籤", title: "姜太公遇文王", poem: "磻溪釣魚幾經年，始遇文王載後車。<br>前程一步一驚心，此地相逢有宿緣。", trans: "Fishing at Pan Stream for several years, only then meeting King Wen who carries him in the rear carriage. Every single step on the future path startles the heart; meeting in this place is due to a predestined bond." },
+        { no: 69, luck: "中吉籤", title: "韓文公祭鱷魚", poem: "潮陽水急起惡瀾，文公祭鱷訴蒼天。<br>一紙朝奏九重天，萬物從今總一體。", trans: "The waters of Chaoyang rush rapidly, stirring up ferocious waves; Han Yu offers sacrifices to the crocodiles, appealing to the blue sky. Submitting a single morning petition to the highest heavens, all things from now on are part of a single whole." },
+        { no: 70, luck: "中平籤", title: "塞翁失馬", poem: "塞翁失馬世間稀，禍福無門自己求。<br>目前雖見多勞碌，日後方知好計謀。", trans: "The old man of the frontier losing his horse is rare in the world; disasters and blessings have no doors, but are sought by oneself. Although much busy toil is seen at present, only later will you realize it was an excellent strategy." },
+        { no: 71, luck: "中平籤", title: "莊周活鮒魚", poem: "鮒魚困在水車中，旦夕求活訴莊周。<br>若問前程萬事知，何須計較苦勞心。", trans: "The carp is trapped inside a waterwheel furrow, pleading morning and night to Zhuangzi to save its life. If you ask about the future, all matters shall be known; why dispute and bitterly exhaust your mind?" },
+        { no: 72, luck: "中平籤", title: "守株待兔", poem: "守株待兔幾經年，不見兔來且枉然。<br>目前的確多勞碌，日後方知好計謀。", trans: "Waiting by the stump for a hare for several years; when no hare comes, it is all completely in vain. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
+        { no: 73, luck: "上上籤", title: "倫文敘高中", poem: "狀元及第耀門閭，五色雲開喜慶餘。<br>一旦凌霄揚自樂，任君來往赴瑤池。", trans: "Passing the imperial exam as the top scholar brings glory to the family gate; five-colored clouds open up with leftover celebrations. Once soaring high into the clouds to enjoy self-mattered joy, you are free to travel back and forth to the Jade Pool." },
+        { no: 74, luck: "下下籤", title: "朱買臣分妻", poem: "朱買臣分妻日，馬前潑水哭千秋。<br>家破人亡無處去，何處關山聽玉箏。", trans: "On the day Zhu Maichen divorced his wife, water was poured before the horse, mourned for a thousand autumns. With home destroyed and family gone, there is nowhere to go; at which mountain pass can one hear the jade zither?" },
+        { no: 75, luck: "下下籤", title: "劉禪過江", poem: "蜀道崎嶇路轉賒，阿斗過江入魏家。<br>當日六軍同駐馬，萬金何處保家邦。", trans: "The roads of Shu are rugged, and the path ahead turns distant; Adou (Liu Shan) crosses the river to enter the Wei family house. On that day, the six armies halted their horses together; where could ten thousand gold pieces go to preserve the nation?" },
+        { no: 76, luck: "中平籤", title: "孔夫子守道", poem: "孔子厄陳蔡日，絕糧七日嘆長吁。<br>守時不用多憂慮，始知富貴等浮雲。", trans: "During the days Confucius was trapped between Chen and Cai, cut off from food for seven days, he let out long sighs. Observe the right timing without excessive worry, knowing for the first time that wealth and status are like floating clouds." },
+        { no: 77, luck: "中平籤", title: "公冶長受劫", poem: "公冶長解鳥語日，因何踏破雙鞋底。<br>家破人亡無處去，罰賞分明濁與清。", trans: "On the day Gongye Chang understood the language of birds, why wear out the soles of both shoes? With home destroyed and family gone, there is nowhere to go; punishments and rewards are distinct, just like the muddy and the clear." },
+        { no: 78, luck: "上吉籤", title: "曾點言志", poem: "莫向眾人談命運，且看前程一條金。<br>高人品格同清秀，不假修為自顯揚。", trans: "Do not talk about destiny to the crowd; look ahead to a future path lined with gold. A person of high caliber shares its pure and elegant character; it manifests itself naturally without relying on artificial effort." },
+        { no: 79, luck: "中平籤", title: "蘇秦封相", poem: "六國封相耀門閭，錦衣玉帶喜慶餘。<br>手持一杯出東牆，原來夢境未尋常。", trans: "Appointed as Prime Minister by the six states brings glory to the family gate; brocade robes and jade belts bring leftover celebrations. Holding a cup while walking out from the eastern wall, it turns out this dream world is far from ordinary." },
+        { no: 80, luck: "中吉籤", title: "杯中弓映 (樂廣觀弓影)", poem: "杯中弓影誤為蛇，憂慮成疾枉自嗟。<br>忽然風送歌聲至，始知天下本無事。", trans: "Mistaking the shadow of a bow in the cup for a snake, worrying yourself into illness and sighing in vain. Suddenly the wind delivers the sound of singing, realizing for the first time that all is inherently at peace under heaven." },
+        { no: 81, luck: "中吉籤", title: "子路射雌", poem: "子路射雌日，才高語妙氣如虹。<br>守時不用多憂慮，萬物從今總一體。", trans: "On the day Zilu shot the hen falcon, his talent was supreme, words ingenious, and aura like a rainbow. Observe the right timing without excessive worry; all things from now on are part of a single whole." },
+        { no: 82, luck: "中平籤", title: "孔子在衛", poem: "孔子在衛日，前程一步一驚心。<br>欲作高人未可行，守時不用多憂慮。", trans: "During the days Confucius resided in the state of Wei, every single step on the future path startled the heart. Desiring to act as a prominent figure but unable to move forward; observe the right timing without excessive worry." },
+        { no: 83, luck: "中平籤", title: "人心不足", poem: "人心不足蛇吞象，世事如棋局局新。<br>何須計較苦勞心，罰賞分明濁與清。", trans: "Human greed is never satisfied, just like a snake trying to swallow an elephant; world affairs are like a game of chess, completely fresh with every match. Why dispute and bitterly exhaust your mind? Punishments and rewards are distinct, just like the muddy and the clear." },
+        { no: 84, luck: "中吉籤", title: "韓信投軍", poem: "韓信棄楚歸漢日，馬前潑水哭千秋。<br>前程險阻終須過，此地相逢有宿緣。", trans: "On the day Han Xin abandoned Chu to join Han, water was poured before the horse, mourned for a thousand autumns. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
+        { no: 85, luck: "上吉籤", title: "劉向高中", poem: "狀元及第耀門閭，五色雲開喜慶餘。<br>不假修為自顯揚，前程已註公私簿。", trans: "Passing the imperial exam as the top scholar brings glory to the family gate; five-colored clouds open up with leftover celebrations. It manifests itself naturally without relying on artificial effort; the future is already recorded in public and private ledgers." },
+        { no: 86, luck: "中吉籤", title: "陶侃母留名萬載", poem: "陶侃母留名萬載，高風亮節無人識。<br>目前的確多勞碌，日後方知好計謀。", trans: "The mother of Tao Kan leaves her name to be remembered for ten thousand years; her noble character and integrity remain unrecognized by others. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
+        { no: 87, luck: "中平籤", title: "兩雄相遇", poem: "兩雄相遇在華容，狹路相逢勇者勝。<br>欲作高人未可行，前程一步一驚心。", trans: "Two mighty heroes encounter each other at Huarong; when meeting on a narrow path, the courageous one wins. Desiring to act as a prominent figure but unable to move forward; every single step on the future path startles the heart." },
+        { no: 88, luck: "中吉籤", title: "木蘭從軍", poem: "花木蘭代父從軍，英雄落魄到天涯。<br>前程險阻終須過，此地相逢有宿緣。", trans: "Hua Mulan joins the army in place of her father; a hero loses fortune and ends up at the edge of the world. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
+        { no: 89, luck: "下下籤", title: "吳主愛西施", poem: "姑蘇台下草茫茫，今日猶聞說館娃。<br>當日吳王沉醉處，萬金何處保家邦。", trans: "Below the Gusu Platform, the wild grass stretches boundlessly; even today, one still hears stories of the Guanwa Palace. At that place where the King of Wu was deeply intoxicated, where could ten thousand gold pieces go to preserve the nation?" },
+        { no: 90, luck: "中平籤", title: "紅拂女私奔", poem: "手持一杯出東牆，路遇高人引進房。<br>開口便知奇異事，原來夢境未尋常。", trans: "Holding a cup while walking out from the eastern wall, meeting a person of high caliber on the road who leads you into a room. As soon as they speak, strange and wondrous things are revealed; it turns out this dream world is far from ordinary." },
+        { no: 91, luck: "上上籤", title: "蔡中興高中", poem: "洛陽橋上大放光，五色雲開喜慶餘。<br>一旦凌霄揚自樂，任君來往赴瑤池。", trans: "Great light breaks forth above the Luoyang Bridge; five-colored clouds open up with leftover celebrations. Once soaring high into the clouds to enjoy self-mattered joy, you are free to travel back and forth to the Jade Pool." },
+        { no: 92, luck: "中吉籤", title: "孔夫子周遊列國", poem: "孔子周遊列國日，前程一步一驚心。<br>絕糧七日嘆長吁，萬物從今總一體。", trans: "During the days Confucius travelled throughout the various states, every single step on the future path startled the heart. Cut off from food for seven days, he let out long sighs; all things from now on are part of a single whole." },
+        { no: 93, luck: "下下籤", title: "邵康節觀梅", poem: "花影遲遲侵砌上，遙知月鏡掛長空。<br>忽聞鶴唳聲淒切，早買歸舟返里中。", trans: "Flower shadows slowly creep up onto the steps; from afar, one knows the moon mirror hangs in the vast sky. Suddenly hearing the sorrowful and piercing cry of a crane, hurry to buy a returning boat to head back to your hometown." },
+        { no: 94, luck: "中平籤", title: "兩虎相爭", poem: "兩虎相爭必一傷，世事如棋局局新。<br>何須計較苦勞心，守時不用多憂慮。", trans: "When two tigers fight each other, one will surely be injured; world affairs are like a game of chess, completely fresh with every match. Why dispute and bitterly exhaust your mind? Observe the right timing without excessive worry." },
+        { no: 95, luck: "中平籤", title: "女媧氏", poem: "盤古初開天地日，女媧煉石補青天。<br>其中造化誰能測，萬物從今總一體。", trans: "On the day Pangu first separated heaven and earth, Goddess Nvwa refined stones to repair the blue sky. Who can measure the creation within it? From now on, all things are part of a single whole." },
+        { no: 96, luck: "中平籤", title: "文姬思漢", poem: "秋水伊人各一方，天南地北恨偏長。<br>相思詩句憑誰寄，不盡淒涼幾斷腸。", trans: "The autumn waters separate the loved ones on different sides; across heaven's south and earth's north, the sorrow runs exceptionally long. Upon whom can one rely to send poems of longing? The endless desolation almost breaks the heart." },
+        { no: 97, luck: "中平籤", title: "康順釣魚", poem: "康順釣魚幾經年，不見魚來且枉然。<br>目前的確多勞碌，日後方知好計謀。", trans: "Kang Shunniang fishing for several years; when no fish comes, it is all completely in vain. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
+        { no: 98, luck: "中平籤", title: "掘地尋金", poem: "掘地尋金幾經年，不見金來且枉然。<br>目前的確多勞碌，日後方知好計謀。", trans: "Digging the earth to seek gold for several years; when no gold comes, it is all completely in vain. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
+        { no: 99, luck: "中平籤", title: "韓文公遇雪", poem: "雲橫秦嶺家何在，雪擁藍關馬不前。<br>一紙朝奏九重天，夕貶潮陽路八千。", trans: "Clouds span across the Qinling Mountains, where is my home? Snow blocks the Lan Pass, and the horse refuses to move forward. Submitting a single morning petition to the highest heavens, by evening banishment comes to Chaoyang, eight thousand miles away." },
+        { no: 100, luck: "中吉籤", title: "百花開放", poem: "百花競放賀陽春，萬物從今盡轉新。<br>末數莫言窮運至，不知否極泰來頻。", trans: "A hundred flowers compete in blooming to celebrate the bright spring; all things from now on completely turn into something fresh. At the final number, do not say that its exhausted luck has arrived; one hardly realizes that when misfortune reaches its limit, prosperity comes frequently." }
+    ];
+
+    let currentLot = null;
+
+    function drawLot() {
+        const randomIndex = Math.floor(Math.random() * lotsData.length);
+        currentLot = lotsData[randomIndex];
+
+        // 填入籤文內容
+        document.getElementById("lot-number").innerText = `第 ${currentLot.no} 籤 · Stick No. ${currentLot.no}`;
+        document.getElementById("lot-title").innerText = currentLot.title;
+        document.getElementById("lot-luck").innerText = currentLot.luck;
+        document.getElementById("poem-text").innerHTML = currentLot.poem;
+        document.getElementById("poem-translation").innerText = currentLot.trans;
+
+        // 重設分類解讀區
+        document.getElementById("explanation-box").style.display = "none";
+        const catButtons = document.querySelectorAll(".cat-btn");
+        catButtons.forEach(btn => btn.classList.remove("active"));
+
+        // 顯示結果區域與重設按鈕
+        const resultBox = document.getElementById("result-box");
+        resultBox.style.display = "block";
+        
+        const resetBtn = document.getElementById("reset-btn");
+        resetBtn.style.display = "inline-block";
+        
+        // 觸發動畫
+        resultBox.style.animation = 'none';
+        resultBox.offsetHeight; 
+        resultBox.style.animation = null;
+    }
+
+    // 依籤運等級與問事分類產生對應解讀
+    function showExplanation(category, buttonElement) {
+        if (!currentLot) return;
+
+        // 移除其他按鈕的 active class 並加上現在按鈕的
+        const catButtons = document.querySelectorAll(".cat-btn");
+        catButtons.forEach(btn => btn.classList.remove("active"));
+        buttonElement.classList.add("active");
+
+        const luck = currentLot.luck;
+        let titleZh = "";
+        let textZh = "";
+        let textEn = "";
+
+        if (category === 'career') {
+            titleZh = "事業 · Career Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "事業運勢極佳，升遷有望，貴人相助，能得心應手，創立一番新氣象。若有轉職或創業打算，此時正是良機。";
+                textEn = "Excellent career prospects with high chances of promotion and helpful mentors. An ideal time for launching new projects, starting a business, or seeking career advancement.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "事業穩定向上，付出努力將會收穫合理的回報，遇到困難亦能逢凶化吉，宜踏實穩進，不宜急功近利。";
+                textEn = "Steady upward progress in career. Your hard work will pay off, and difficulties will be resolved smoothly. Stay grounded and avoid rash decisions.";
+            } else if (luck.includes("中平")) {
+                textZh = "目前事業發展平穩，不宜作太大的變動或冒進。宜守好本份，進修裝備自己，耐心等待未來的機會。";
+                textEn = "Career development is stable and routine. It is best to maintain your current position, focus on self-improvement, and wait patiently for better opportunities.";
+            } else {
+                textZh = "事業發展多阻礙或易遇小人，目前並非跳槽或開展新項目的時機。務必謹言慎行，凡事忍讓，以退為進。";
+                textEn = "Obstacles and office politics may arise. Avoid changing jobs or starting new ventures right now. Act cautiously and maintain a defensive strategy.";
+            }
+        } else if (category === 'wealth') {
+            titleZh = "財運 · Wealth Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "財星高照，正財偏財皆有斬獲。投資可望獲得優厚回報，但仍需注意見好就收，勿過度貪婪。";
+                textEn = "Bright financial outlook with gains from both regular income and investments. Favorable returns are expected, but remember to take profits and avoid greed.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "財運平穩有餘，正財收入順利，小手筆投資有機會獲利，應著重穩健理財，避免投機性的高風險買賣。";
+                textEn = "Stable and sufficient wealth. Regular income is secure, with small gains from conservative investments. Avoid high-risk speculative trading.";
+            } else if (luck.includes("中平")) {
+                textZh = "財運中規中矩，收支基本平衡。此時不宜進行大額投資或借貸，以守財與量入為出為上策。";
+                textEn = "Average financial fortune with balanced income and expenses. Avoid large-scale investments or lending money; focus on budgeting and preserving your capital.";
+            } else {
+                textZh = "財運不濟，有破財的風險。切勿參與任何投機買賣或高風險投資，日常開銷應精打細算，防範金錢詐騙。";
+                textEn = "High risk of financial loss. Strictly avoid gambling, speculation, and risky investments. Manage your daily expenses wisely and beware of scams.";
+            }
+        } else if (category === 'love') {
+            titleZh = "姻緣 · Love Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "良緣天定，單身者容易遇到理想對象；戀愛中或已婚者感情甜蜜融洽，有拉埋天窗或添丁之喜。";
+                textEn = "Heaven-sent romance. Singles are likely to meet their ideal partner; couples will enjoy deep harmony, with strong prospects for marriage or welcoming a child.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "姻緣順遂，相互多作溝通與包容，感情便能穩步發展。單身者可透過朋友介紹認識不錯的緣份。";
+                textEn = "Smooth romantic development. Good communication and mutual understanding will strengthen your bond. Singles may meet suitable dates through friends.";
+            } else if (luck.includes("中平")) {
+                textZh = "感情關係處於平淡期，雙方需多花心思維繫，避免因瑣事產生摩擦；單身者緣份未至，宜順其自然。";
+                textEn = "A quiet period in relationships that requires effort to maintain passion and avoid minor friction. Singles should let romance happen naturally without forcing it.";
+            } else {
+                textZh = "感情易生波瀾，可能出現爭吵、誤會或外來干擾。雙方必須冷靜溝通，給予彼此空間，切忌意氣用事。";
+                textEn = "Turbulence in relationships with potential conflicts, misunderstandings, or external interference. Remain calm, communicate gently, and avoid rash emotional reactions.";
+            }
+        } else if (category === 'health') {
+            titleZh = "健康 · Health Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "身體健康精力旺盛，過去若有小病痛亦能迅速痊癒。繼續保持良好的作息與運動習慣即可。";
+                textEn = "Vibrant health and high energy levels. Any past illnesses will recover rapidly. Maintain your healthy lifestyle and regular exercise routine.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "健康狀況良好，偶有疲勞或輕微不適，只要注意充分休息和飲食均衡，即可快速恢復元氣。";
+                textEn = "Good general health. Occasional fatigue or minor discomfort can be quickly cured with adequate rest and a balanced diet.";
+            } else if (luck.includes("中平")) {
+                textZh = "健康尚可，但須注意都市病及積勞成疾。宜多接觸大自然放鬆心情，保持作息規律。";
+                textEn = "Average health; beware of stress-related symptoms and overworking. Spend time in nature to relax your mind and maintain a regular sleep schedule.";
+            } else {
+                textZh = "健康欠佳，易受疾病纏身或舊病復發。有身體不適應立即就醫檢查，切勿拖延，出入亦需注意安全防意外。";
+                textEn = "Poor health fortune with risks of illness or relapses. Seek medical advice immediately if you feel unwell, and take extra safety precautions during daily travel.";
+            }
+        } else if (category === 'study') {
+            titleZh = "學業 · Study Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "學業成績突飛猛進，思維敏捷，考試考運極佳，能夠名列前茅，順利通過各類考核或升學申請。";
+                textEn = "Outstanding academic progress with sharp mental clarity. Excellent luck in exams and assessments, making it easy to achieve top grades or admission goals.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "學習狀態良好，只要認真溫習，便能發揮應有水準。遇到學業難題多向師長請教，必定可得啟發。";
+                textEn = "Good study momentum. Diligent preparation will yield solid results. Do not hesitate to ask teachers or mentors for guidance when encountering difficult concepts.";
+            } else if (luck.includes("中平")) {
+                textZh = "學業表現中規中矩，需付出較多努力才能維持現狀。切忌分心或有僥倖心態，溫習須腳踏實地。";
+                textEn = "Average academic performance that requires extra dedication just to maintain current grades. Avoid distractions and focus on thorough, disciplined review.";
+            } else {
+                textZh = "學習容易遇到瓶頸，考試亦容易出現失誤。必須重整溫習策略，調整心態，遇到挫折不可輕言放棄。";
+                textEn = "Academic bottlenecks and a tendency to make careless mistakes in exams. Reorganize your study strategies, manage stress, and remain resilient against setbacks.";
+            }
+        } else if (category === 'family') {
+            titleZh = "家庭 · Family Interpretation";
+            if (luck.includes("上上") || luck.includes("上吉")) {
+                textZh = "家宅興旺，闔家平安幸福。家庭成員之間互相扶持，和樂融融，家中恐有喜慶之事（如喬遷、添丁）。";
+                textEn = "A prosperous and joyous household. Family members support each other harmoniously, with potential celebrations such as moving to a better home or newborn babies.";
+            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+                textZh = "家宅運勢順暢，長幼和諧。生活中雖有細微小事，但彼此商量皆能妥善解決，家庭氣氛溫馨。";
+                textEn = "Smooth household fortune and harmonious intergenerational relationships. Minor household matters can be resolved amicably through gentle discussion.";
+            } else if (luck.includes("中平")) {
+                textZh = "家宅平順，無大風大浪。建議多陪伴家人，主動關心長輩的健康與日常起居，以促進家庭親和。";
+                textEn = "A stable and uneventful home life. Spend quality time with family and proactively check on the health and well-being of elderly family members.";
+            } else {
+                textZh = "家宅運較為反覆，容易因為意見不合或生活瑣事與家人起爭執。必須各退一步，以和為貴，並多留意家人健康。";
+                textEn = "Domestic instability with potential arguments over differing opinions or daily chores. Practice patience, compromise for harmony, and monitor your family's health.";
+            }
+        }
+
+        document.getElementById("exp-title").innerText = titleZh;
+        document.getElementById("exp-luck-badge").innerText = `[${luck}]`;
+        document.getElementById("exp-zh").innerText = textZh;
+        document.getElementById("exp-en").innerText = textEn;
+
+        // 顯示解讀區並套用動畫
+        const expBox = document.getElementById("explanation-box");
+        expBox.style.display = "block";
+        expBox.style.animation = 'none';
+        expBox.offsetHeight;
+        expBox.style.animation = null;
+    }
+
+    function resetLot() {
+        currentLot = null;
+        document.getElementById("result-box").style.display = "none";
+        document.getElementById("reset-btn").style.display = "none";
+        document.getElementById("explanation-box").style.display = "none";
+
+        document.getElementById("lot-number").innerText = "";
+        document.getElementById("lot-title").innerText = "";
+        document.getElementById("lot-luck").innerText = "";
+        document.getElementById("poem-text").innerHTML = "";
+        document.getElementById("poem-translation").innerText = "";
+
+        const catButtons = document.querySelectorAll(".cat-btn");
+        catButtons.forEach(btn => btn.classList.remove("active"));
+    }
+</script>
+
+</body>
+</html>

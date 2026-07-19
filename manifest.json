@@ -1,0 +1,22 @@
+{
+  "name": "黃大仙靈籤 - 粉彩東方古典風",
+  "short_name": "黃大仙靈籤",
+  "description": "提供隨機抽取黃大仙靈籤與多維度事項解讀的離線小工具",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F7F5F0",
+  "theme_color": "#8EAE9D",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
