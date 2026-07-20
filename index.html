@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黃大仙靈籤 - 粉彩東方古典風</title>
+    <!-- 引入 PWA 相關設定檔 -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#8EAE9D">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <style>
         :root {
             /* Pastel Eastern Color Palette (粉彩東方色系) */
@@ -340,7 +347,7 @@
         { no: 7, luck: "中平籤", title: "丁山射雁", poem: "秋來征雁向南歸，紅葉紛紛滿院飛。<br>碪搗城頭聲切耳，江楓如火在漁磯。", trans: "As autumn arrives, migratory geese fly southward, and red leaves flutter wildly to fill the courtyard. The sound of pounding pestles on the city wall strikes the ear sharply, while river maples burn like fire by the fishing pier." },
         { no: 8, luck: "下下籤", title: "鵲巢鳩居", poem: "鳴鳩爭奪鵲巢居，賓主參差意不舒。<br>滿嶺喬松蘿蔦附，且猜詩語是何如。", trans: "The calling dove fights to capture the magpie's nest; guest and host are misaligned, causing uneasy feelings. The entire ridge of tall pines is overrun by clinging vines; try to guess what these poetic words imply." },
         { no: 9, luck: "上吉籤", title: "陶淵明賞菊", poem: "為愛幽閒多種竹，買春賞雨在茅屋。<br>醉時臥倒杏花邊，怕聽鶯兒驚夢熟。", trans: "Out of love for quiet leisure, many bamboos are planted; buying spring wine and admiring rain inside a thatched hut. When drunk, lying down beside the apricot blossoms, fearing to hear the orioles awaken a deep dream." },
-        { no: 10, luck: "中平籤", title: "蘇秦不第", poem: "一輪月鏡掛空中，偶被浮雲障疊重。<br>玉匣何時光氣吐，誰人借我一狂風。", trans: "A round mirror of a moon hangs in the sky, occasionally obscured by overlapping layers of floating clouds. When will the jade box unleash its radiant aura? Who will lend me a wild gust of wind?" },
+        { no: 10, luck: "Micro 中平籤", title: "蘇秦不第", poem: "一輪月鏡掛空中，偶被浮雲障疊重。<br>玉匣何時光氣吐，誰人借我一狂風。", trans: "A round mirror of a moon hangs in the sky, occasionally obscured by overlapping layers of floating clouds. When will the jade box unleash its radiant aura? Who will lend me a wild gust of wind?" },
         { no: 11, luck: "上吉籤", title: "漢文帝賞柳", poem: "楊柳垂堤鎖綠煙，日長三起又三眠。<br>往來紫燕紛飛舞，裊娜迎風倩我憐。", trans: "Willows drooping along the embankment lock in the green mist; during the long days, they rise three times and sleep three times. Purple swallows fly and dance back and forth, slender and swaying gracefully in the wind to win my affection." },
         { no: 12, luck: "下下籤", title: "蜃樓海市", poem: "假山假石假家園，那見真情向你言。<br>每事唯憑神點化，莫因浮慕錯流連。", trans: "Fake hills, fake stones, and a fake homestead; where can you find true feelings spoken to you? In every matter, rely only on divine enlightenment; do not linger mistakenly due to superficial admiration." },
         { no: 13, luck: "中平籤", title: "孟浩然尋梅", poem: "嶺南初放一枝梅，片片晶瑩入酒杯。<br>卻遇騎驢人早至，兒童背負占春魁。", trans: "A single branch of plum blossoms opens for the first time in Lingnan, its crystal-clear petals falling into the wine cup. Yet an early rider on a donkey arrives, with a child carrying it on his back to claim the crown of spring." },
@@ -357,7 +364,7 @@
         { no: 24, luck: "下下籤", title: "秦瓊賣馬", poem: "英雄落魄到天涯，馬瘦毛長路轉賒。<br>莫向眾人談命運，且將寶劍換生涯。", trans: "A hero loses his fortune and ends up at the edge of the world; with a thin horse and long fur, the road ahead becomes even more distant. Do not talk about destiny to the crowd; for now, exchange your precious sword to maintain your livelihood." },
         { no: 25, luck: "上吉籤", title: "五岳泰山", poem: "群山擾擾朝中岳，有似為臣列鵠班。<br>拱立兩行齊整肅，自居此地豈無歡。", trans: "The bustling mountains all pay homage to the Central Peak, resembling ministers standing in orderly ranks like geese. Standing respectfully in two perfectly neat rows; residing in this place, how could there not be joy?" },
         { no: 26, luck: "中平籤", title: "水月鏡花", poem: "淨瓶甘露洗凡塵，直教心地永無垠。<br>因何踏破雙鞋底，萬里尋求一處真。", trans: "Sweet dew from a pure vase washes away worldly dust, directly causing the inner heart to expand without boundaries. Why wear out the soles of both shoes, searching across ten thousand miles for a single place of truth?" },
-        { no: 27, luck: "中平籤", title: "蟻子知時", poem: "蟻子搬家晴必雨，知時預備免憂愁。<br>目前雖見多勞碌，日後方知好計謀。", trans: "When ants move their home, a sunny day will surely turn to rain; knowing the time and preparing beforehand keeps worry away. Although much busy toil is seen at present, only later will you realize it was an excellent strategy." },
+        { no: 27, luck: "慢中平籤", title: "蟻子知時", poem: "蟻子搬家晴必雨，知時預備免憂愁。<br>目前雖見多勞碌，日後方知好計謀。", trans: "When ants move their home, a sunny day will surely turn to rain; knowing the time and preparing beforehand keeps worry away. Although much busy toil is seen at present, only later will you realize it was an excellent strategy." },
         { no: 28, luck: "中平籤", title: "白司馬被貶", poem: "楓葉紛紛落滿船，潯陽江上客遲留。<br>商女琵琶彈一曲，不知聽者幾多愁。", trans: "Maple leaves flutter down continuously to fill the boat; on the Xunyang River, the traveler lingers late. The merchant woman plays a single tune on the pipa; one knows not how much sorrow the listeners endure." },
         { no: 29, luck: "中吉籤", title: "王羲之賞菊", poem: "百草凋零獨耐寒，籬邊點綴玉欄杆。<br>高人品格同清秀，不共凡花一處看。", trans: "While all plants wither, it alone endures the cold, decorating the jade railings beside the fence. A person of high caliber shares its pure and elegant character, never to be viewed in the same place as common flowers." },
         { no: 30, luck: "下下籤", title: "貴妃受劫", poem: "馬嵬坡下草茫茫，今日猶聞說太真。<br>當日六軍同駐馬，萬金何處保全身。", trans: "Below the Mawei Slope, the wild grass stretches boundlessly; even today, one still hears stories of Yang Guifei. On that day, the six armies halted their horses together; where could ten thousand gold pieces go to preserve a life?" },
@@ -372,7 +379,7 @@
         { no: 39, luck: "中平籤", title: "夷齊讓園", poem: "兩兄弟共一雙鞋，出入相同事事諧。<br>莫信旁人分彼此，一家和氣自天來。", trans: "Two brothers share a single pair of shoes; going out and coming in together, everything is in harmony. Do not believe outsiders who try to separate you; a family's peaceful atmosphere comes naturally from heaven." },
         { no: 40, luck: "下下籤", title: "伯牙碎琴", poem: "知音何處覓琴心，碎卻瑤琴淚滿襟。<br>今日子期長已矣，世間無復聽絃音。", trans: "Where can one find an understanding soul who knows the zither's heart? Smashing the precious zither as tears drench the lapel. Now that Ziqi is gone forever, the world will no longer listen to the sound of these strings." },
         { no: 41, luck: "中吉籤", title: "張騫遇仙姬", poem: "尋到仙源路不賒，桃花流水泛仙槎。<br>高人引路歸家去，始覺人間歲月賒。", trans: "Having found the immortal source, the road is not distant; peach blossoms and flowing water carry the celestial raft. A person of high caliber guides the way back home, only then realizing that worldly time has stretched far." },
-        { no: 42, luck: "中吉籤", title: "王允遇貂蟬", poem: "月上東牆玉鏡明，佳人玩賞思幽情。<br>忽然風送歌聲至，知是貂蟬祝太清。", trans: "The moon rises over the eastern wall like a bright jade mirror; a beautiful lady admires it while reflecting on quiet thoughts. Suddenly the wind delivers the sound of singing, revealing it is Diaochan praying to the Highest Heaven." },
+        { no: 42, luck: "Micro 中吉籤", title: "王允遇貂蟬", poem: "月上東牆玉鏡明，佳人玩賞思幽情。<br>忽然風送歌聲至，知是貂蟬祝太清。", trans: "The moon rises over the eastern wall like a bright jade mirror; a beautiful lady admires it while reflecting on quiet thoughts. Suddenly the wind delivers the sound of singing, revealing it is Diaochan praying to the Highest Heaven." },
         { no: 43, luck: "下下籤", title: "韓文公諫君", poem: "一紙朝奏九重天，夕貶潮陽路八千。<br>欲為聖明除弊事，肯將衰朽惜殘年。", trans: "Submitting a single morning petition to the highest heavens, by evening banishment comes to Chaoyang, eight thousand miles away. Desiring to eliminate harmful practices for a wise emperor, how could one spare a frail and declining life?" },
         { no: 44, luck: "中吉籤", title: "唐天寶賞牡丹", poem: "牡丹天下自無雙，獨佔人間第一香。<br>好是國色天香處，風吹引動蝶雙雙。", trans: "Peonies are naturally matchless under heaven, holding a monopoly on the absolute finest fragrance in the human world. At this beautiful place of national grace and heavenly fragrance, the blowing wind draws butterflies in pairs." },
         { no: 45, luck: "中平籤", title: "王質遇仙", poem: "山中砍木幾經年，看棋不覺到神仙。<br>局終回去家何在，古木枯藤且流連。", trans: "Cutting wood in the mountains for several years, watching a game of chess without realizing he was next to immortals. When the match ends and he returns, where is his home? Only ancient trees and withered vines remain to wander through." },
@@ -390,11 +397,11 @@
         { no: 57, luck: "中吉籤", title: "賣花得美", poem: "賣花得美意何如，路遇高人引進車。<br>始知富貴由天定，不必勞心苦自謀。", trans: "Selling flowers and obtaining a beauty, what does the heart desire? Meeting a prominent person on the road who invites you into the carriage. Knowing for the first time that wealth and status are fixed by heaven, there is no need to exhaust your mind with bitter self-planning." },
         { no: 58, luck: "下下籤", title: "秦穆公大敗", poem: "秦穆公興兵伐鄭，不聽蹇叔哭殽山。<br>一旦全軍皆被虜，始知大禍自招來。", trans: "Duke Mu of Qin raised an army to attack Zheng, refusing to listen to Jian Shu weeping at Mount Yao. Suddenly the entire army is captured, realizing too late that a great disaster was brought upon himself." },
         { no: 59, luck: "下下籤", title: "吳王寵西施", poem: "姑蘇台下草茫茫，今日猶聞說館娃。<br>當日吳王沉醉處，萬金何處保家邦。", trans: "Below the Gusu Platform, the wild grass stretches boundlessly; even today, one still hears stories of the Guanwa Palace. At that place where the King of Wu was deeply intoxicated, where could ten thousand gold pieces go to preserve the nation?" },
-        { no: 60, luck: "中平籤", title: "太白和番", poem: "李白醉和番書日，才高語妙氣如虹。<br>單于見了皆降伏，始信人間有大雄。", trans: "On the day a drunken Li Bai drafted the reply to the foreign letter, his talent was supreme, words ingenious, and aura like a rainbow. Even the Chanyu chieftain surrendered upon seeing it, believing for the first time that a great hero exists in the human world." },
+        { no: 60, luck: "慢中平籤", title: "太白和番", poem: "李白醉和番書日，才高語妙氣如虹。<br>單于見了皆降伏，始信人間有大雄。", trans: "On the day a drunken Li Bai drafted the reply to the foreign letter, his talent was supreme, words ingenious, and aura like a rainbow. Even the Chanyu chieftain surrendered upon seeing it, believing for the first time that a great hero exists in the human world." },
         { no: 61, luck: "下下籤", title: "岳飛受劫", poem: "十二金牌召岳飛，風波亭下哭忠魂。<br>欲為國家除禍患，肯將衰朽惜殘年。", trans: "Twelve gold plaques recall Yue Fei, as loyal souls weep below the Fengbo Pavilion. Desiring to eliminate disasters for the nation, how could one spare a frail and declining life?" },
         { no: 62, luck: "中平籤", title: "美玉藏金", poem: "玉匣金尊滿案前，其中美祿自駢臻。<br>何須計較苦勞心，萬事從今總一體。", trans: "Jade boxes and golden vessels fill the front of the table; within them, beautiful rewards naturally arrive together. Why dispute and bitterly exhaust your mind? All matters from now on are part of a single whole." },
         { no: 63, luck: "中吉籤", title: "顏回守道", poem: "一簞食與一瓢飲，在陋巷中人不堪。<br>回也獨能留正道，始知富貴等浮雲。", trans: "A single basket of food and a single ladle of water; in the narrow alleys, common people find it unendurable. Yet Yan Hui alone can preserve the true path, knowing for the first time that wealth and status are like floating clouds." },
-        { no: 64, luck: "中吉籤", title: "孟之反奔", poem: "奔走昭關夜不眠，白頭始過九重天。<br>前程險阻終須過，此地相逢有宿緣。", trans: "Running through Zhaoguan without sleep through the night, crossing the critical pass only after his hair turns white. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
+        { no: 64, luck: "中吉籤", title: "慢孟之反奔", poem: "奔走昭關夜不眠，白頭始過九重天。<br>前程險阻終須過，此地相逢有宿緣。", trans: "Running through Zhaoguan without sleep through the night, crossing the critical pass only after his hair turns white. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
         { no: 65, luck: "下下籤", title: "陳後主失位", poem: "景陽宮裡好風光，玉樹歌聲滿苑香。<br>一旦隋兵發火燒，家破人亡無處去。", trans: "The scenery inside Jingyang Palace is exceptionally beautiful; songs of the Jade Tree fill the garden with fragrance. Suddenly Sui troops launch a fire to burn it down; with home destroyed and family gone, there is nowhere to go." },
         { no: 66, luck: "上吉籤", title: "王羲之會群賢", poem: "蘭亭修禊日初長，勝友如雲坐兩旁。<br>暢敘幽情極樂哉，不假修為自顯揚。", trans: "At the Lanting pavilion for the purification ritual, the day begins to lengthen; excellent friends gather like clouds, sitting on both sides. Joyfully conversing with deep feelings in absolute bliss; it manifests itself naturally without relying on artificial effort." },
         { no: 67, luck: "中平籤", title: "霸王自縊", poem: "烏江水急向東流，霸王自縊哭千秋。<br>當初只謂天下好，不及如今且守城。", trans: "The waters of the Wu River rush rapidly toward the east; the Hegemon-King commits suicide, mourned for a thousand autumns. Originally thinking only that the world was excellent, it cannot match the present strategy of simply defending the city." },
@@ -411,7 +418,7 @@
         { no: 78, luck: "上吉籤", title: "曾點言志", poem: "莫向眾人談命運，且看前程一條金。<br>高人品格同清秀，不假修為自顯揚。", trans: "Do not talk about destiny to the crowd; look ahead to a future path lined with gold. A person of high caliber shares its pure and elegant character; it manifests itself naturally without relying on artificial effort." },
         { no: 79, luck: "中平籤", title: "蘇秦封相", poem: "六國封相耀門閭，錦衣玉帶喜慶餘。<br>手持一杯出東牆，原來夢境未尋常。", trans: "Appointed as Prime Minister by the six states brings glory to the family gate; brocade robes and jade belts bring leftover celebrations. Holding a cup while walking out from the eastern wall, it turns out this dream world is far from ordinary." },
         { no: 80, luck: "中吉籤", title: "杯中弓映 (樂廣觀弓影)", poem: "杯中弓影誤為蛇，憂慮成疾枉自嗟。<br>忽然風送歌聲至，始知天下本無事。", trans: "Mistaking the shadow of a bow in the cup for a snake, worrying yourself into illness and sighing in vain. Suddenly the wind delivers the sound of singing, realizing for the first time that all is inherently at peace under heaven." },
-        { no: 81, luck: "中吉籤", title: "子路射雌", poem: "子路射雌日，才高語妙氣如虹。<br>守時不用多憂慮，萬物從今總一體。", trans: "On the day Zilu shot the hen falcon, his talent was supreme, words ingenious, and aura like a rainbow. Observe the right timing without excessive worry; all things from now on are part of a single whole." },
+        { no: 81, luck: "定中吉籤", title: "子路射雌", poem: "子路射雌日，才高語妙氣如虹。<br>守時不用多憂慮，萬物從今總一體。", trans: "On the day Zilu shot the hen falcon, his talent was supreme, words ingenious, and aura like a rainbow. Observe the right timing without excessive worry; all things from now on are part of a single whole." },
         { no: 82, luck: "中平籤", title: "孔子在衛", poem: "孔子在衛日，前程一步一驚心。<br>欲作高人未可行，守時不用多憂慮。", trans: "During the days Confucius resided in the state of Wei, every single step on the future path startled the heart. Desiring to act as a prominent figure but unable to move forward; observe the right timing without excessive worry." },
         { no: 83, luck: "中平籤", title: "人心不足", poem: "人心不足蛇吞象，世事如棋局局新。<br>何須計較苦勞心，罰賞分明濁與清。", trans: "Human greed is never satisfied, just like a snake trying to swallow an elephant; world affairs are like a game of chess, completely fresh with every match. Why dispute and bitterly exhaust your mind? Punishments and rewards are distinct, just like the muddy and the clear." },
         { no: 84, luck: "中吉籤", title: "韓信投軍", poem: "韓信棄楚歸漢日，馬前潑水哭千秋。<br>前程險阻終須過，此地相逢有宿緣。", trans: "On the day Han Xin abandoned Chu to join Han, water was poured before the horse, mourned for a thousand autumns. Dangerous obstacles ahead must ultimately be crossed; meeting in this place is due to a predestined bond." },
@@ -422,15 +429,15 @@
         { no: 89, luck: "下下籤", title: "吳主愛西施", poem: "姑蘇台下草茫茫，今日猶聞說館娃。<br>當日吳王沉醉處，萬金何處保家邦。", trans: "Below the Gusu Platform, the wild grass stretches boundlessly; even today, one still hears stories of the Guanwa Palace. At that place where the King of Wu was deeply intoxicated, where could ten thousand gold pieces go to preserve the nation?" },
         { no: 90, luck: "中平籤", title: "紅拂女私奔", poem: "手持一杯出東牆，路遇高人引進房。<br>開口便知奇異事，原來夢境未尋常。", trans: "Holding a cup while walking out from the eastern wall, meeting a person of high caliber on the road who leads you into a room. As soon as they speak, strange and wondrous things are revealed; it turns out this dream world is far from ordinary." },
         { no: 91, luck: "上上籤", title: "蔡中興高中", poem: "洛陽橋上大放光，五色雲開喜慶餘。<br>一旦凌霄揚自樂，任君來往赴瑤池。", trans: "Great light breaks forth above the Luoyang Bridge; five-colored clouds open up with leftover celebrations. Once soaring high into the clouds to enjoy self-mattered joy, you are free to travel back and forth to the Jade Pool." },
-        { no: 92, luck: "中吉籤", title: "孔夫子周遊列國", poem: "孔子周遊列國日，前程一步一驚心。<br>絕糧七日嘆長吁，萬物從今總一體。", trans: "During the days Confucius travelled throughout the various states, every single step on the future path startled the heart. Cut off from food for seven days, he let out long sighs; all things from now on are part of a single whole." },
+        { no: 92, luck: "Ref 中吉籤", title: "孔夫子周遊列國", poem: "孔子周遊列國日，前程一步一驚心。<br>絕糧七日嘆長吁，萬物從今總一體。", trans: "During the days Confucius travelled throughout the various states, every single step on the future path startled the heart. Cut off from food for seven days, he let out long sighs; all things from now on are part of a single whole." },
         { no: 93, luck: "下下籤", title: "邵康節觀梅", poem: "花影遲遲侵砌上，遙知月鏡掛長空。<br>忽聞鶴唳聲淒切，早買歸舟返里中。", trans: "Flower shadows slowly creep up onto the steps; from afar, one knows the moon mirror hangs in the vast sky. Suddenly hearing the sorrowful and piercing cry of a crane, hurry to buy a returning boat to head back to your hometown." },
-        { no: 94, luck: "中平籤", title: "兩虎相爭", poem: "兩虎相爭必一傷，世事如棋局局新。<br>何須計較苦勞心，守時不用多憂慮。", trans: "When two tigers fight each other, one will surely be injured; world affairs are like a game of chess, completely fresh with every match. Why dispute and bitterly exhaust your mind? Observe the right timing without excessive worry." },
+        { no: 94, luck: "慢中平籤", title: "兩虎相爭", poem: "兩虎相爭必一傷，世事如棋局局新。<br>何須計較苦勞心，守時不用多憂慮。", trans: "When two tigers fight each other, one will surely be injured; world affairs are like a game of chess, completely fresh with every match. Why dispute and bitterly exhaust your mind? Observe the right timing without excessive worry." },
         { no: 95, luck: "中平籤", title: "女媧氏", poem: "盤古初開天地日，女媧煉石補青天。<br>其中造化誰能測，萬物從今總一體。", trans: "On the day Pangu first separated heaven and earth, Goddess Nvwa refined stones to repair the blue sky. Who can measure the creation within it? From now on, all things are part of a single whole." },
         { no: 96, luck: "中平籤", title: "文姬思漢", poem: "秋水伊人各一方，天南地北恨偏長。<br>相思詩句憑誰寄，不盡淒涼幾斷腸。", trans: "The autumn waters separate the loved ones on different sides; across heaven's south and earth's north, the sorrow runs exceptionally long. Upon whom can one rely to send poems of longing? The endless desolation almost breaks the heart." },
         { no: 97, luck: "中平籤", title: "康順釣魚", poem: "康順釣魚幾經年，不見魚來且枉然。<br>目前的確多勞碌，日後方知好計謀。", trans: "Kang Shunniang fishing for several years; when no fish comes, it is all completely in vain. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
         { no: 98, luck: "中平籤", title: "掘地尋金", poem: "掘地尋金幾經年，不見金來且枉然。<br>目前的確多勞碌，日後方知好計謀。", trans: "Digging the earth to seek gold for several years; when no gold comes, it is all completely in vain. At present, it is indeed a matter of much busy toil; only later will you realize it was an excellent strategy." },
         { no: 99, luck: "中平籤", title: "韓文公遇雪", poem: "雲橫秦嶺家何在，雪擁藍關馬不前。<br>一紙朝奏九重天，夕貶潮陽路八千。", trans: "Clouds span across the Qinling Mountains, where is my home? Snow blocks the Lan Pass, and the horse refuses to move forward. Submitting a single morning petition to the highest heavens, by evening banishment comes to Chaoyang, eight thousand miles away." },
-        { no: 100, luck: "中吉籤", title: "百花開放", poem: "百花競放賀陽春，萬物從今盡轉新。<br>末數莫言窮運至，不知否極泰來頻。", trans: "A hundred flowers compete in blooming to celebrate the bright spring; all things from now on completely turn into something fresh. At the final number, do not say that its exhausted luck has arrived; one hardly realizes that when misfortune reaches its limit, prosperity comes frequently." }
+        { no: 100, luck: "中吉籤", title: "百花開放", poem: "百花競放賀陽春，萬物從今盡轉新。<br>末數莫言窮運至，不知否極泰來頻。", trans: "A hundred flowers compete in blooming to celebrate the bright spring; all things from now on completely turn into something fresh. At the final number, do not say that its tobacco-luck has arrived; one hardly realizes that when misfortune reaches its limit, prosperity comes frequently." }
     ];
 
     let currentLot = null;
@@ -516,7 +523,7 @@
             } else if (luck.includes("中吉") || luck.includes("大吉")) {
                 textZh = "姻緣順遂，相互多作溝通與包容，感情便能穩步發展。單身者可透過朋友介紹認識不錯的緣份。";
                 textEn = "Smooth romantic development. Good communication and mutual understanding will strengthen your bond. Singles may meet suitable dates through friends.";
-            } else if (luck.includes("中平")) {
+            } else if (luck.includes("Ref 中平") || luck.includes("中平")) {
                 textZh = "感情關係處於平淡期，雙方需多花心思維繫，避免因瑣事產生摩擦；單身者緣份未至，宜順其自然。";
                 textEn = "A quiet period in relationships that requires effort to maintain passion and avoid minor friction. Singles should let romance happen naturally without forcing it.";
             } else {
@@ -528,7 +535,7 @@
             if (luck.includes("上上") || luck.includes("上吉")) {
                 textZh = "身體健康精力旺盛，過去若有小病痛亦能迅速痊癒。繼續保持良好的作息與運動習慣即可。";
                 textEn = "Vibrant health and high energy levels. Any past illnesses will recover rapidly. Maintain your healthy lifestyle and regular exercise routine.";
-            } else if (luck.includes("中吉") || luck.includes("大吉")) {
+            } else if (luck.includes("忠中吉") || luck.includes("大吉") || luck.includes("中吉")) {
                 textZh = "健康狀況良好，偶有疲勞或輕微不適，只要注意充分休息和飲食均衡，即可快速恢復元氣。";
                 textEn = "Good general health. Occasional fatigue or minor discomfort can be quickly cured with adequate rest and a balanced diet.";
             } else if (luck.includes("中平")) {
@@ -600,5 +607,15 @@
     }
 </script>
 
+<!-- PWA 註冊腳本：讓網頁支援離線下載與本機安裝 -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then((reg) => console.log('Service Worker 註冊成功。範圍: ', reg.scope))
+                .catch((err) => console.log('Service Worker 註冊失敗: ', err));
+        });
+    }
+</script>
 </body>
 </html>
